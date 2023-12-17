@@ -59,11 +59,11 @@ export default function Actions({
       <Select onValueChange={handleValueChange} value={state.ease}>
         <SelectTrigger
           data-ease={state.isEase}
-          className='w-[110px] data-[ease="true"]:text-cyan-300 data-[ease="true"]:border-cyan-300'
+          className='w-[110px] data-[ease="true"]:text-cyan-300 data-[ease="true"]:transition-colors data-[ease="true"]:border-cyan-300'
         >
           <SelectValue placeholder='Select' />
         </SelectTrigger>
-        <SelectContent className='max-h-[100px] overflow-y-auto'>
+        <SelectContent className='max-h-[110px] overflow-y-auto'>
           {state.easeOptions.map((ease) => (
             <SelectItem key={ease} value={ease}>
               {ease}
