@@ -1,4 +1,12 @@
-import { actionType, stateType } from "@/reducers/reducer";
+import { actionType, stateType } from '@/reducers/reducer';
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export default function Actions({
   dispatch,
@@ -7,6 +15,32 @@ export default function Actions({
   dispatch: React.Dispatch<actionType>;
   state: stateType;
 }) {
+  function handleUpdateRange({
+    target: { value },
+  }: React.ChangeEvent<HTMLInputElement>) {
+    dispatch({
+      type: 'UPDATE_VALUE',
+      payload: Math.round(Number(value)),
+    });
+  }
+
+  function handleValueChange(value: string) {
+    dispatch({ type: 'UPDATE_EASE', payload: value });
+    dispatch({
+      type: 'UPDATE_VALUE',
+      payload: state.value + 1,
+    });
+    dispatch({ type: 'TOOGLE_EASE' });
+    const timer = setTimeout(() => {
+      dispatch({
+        type: 'UPDATE_VALUE',
+        payload: state.value - 1,
+      });
+      dispatch({ type: 'TOOGLE_EASE' });
+      clearTimeout(timer);
+    }, 3000);
+  }
+
   return (
     <div className='flex gap-4'>
       <label className='flex items-center gap-2 slider border p-2'>
@@ -16,43 +50,27 @@ export default function Actions({
           max={state.max}
           step={state.step}
           className='cursor-pointer level w-full h-1.5 appearance-none bg-border overflow-hidden'
-          onChange={({ target: { value } }) => {
-            dispatch({
-              type: 'UPDATE_VALUE',
-              payload: Math.round(Number(value)),
-            });
-          }}
+          onChange={handleUpdateRange}
           value={state.value}
         />
         <span className='h-full px-2'>{state.value}</span>
       </label>
 
-      <select
-        onChange={({ target: { value } }) => {
-          dispatch({ type: 'UPDATE_EASE', payload: value });
-          dispatch({
-            type: 'UPDATE_VALUE',
-            payload: state.value + 1,
-          });
-          dispatch({ type: 'TOOGLE_EASE' });
-          const timer = setTimeout(() => {
-            dispatch({
-              type: 'UPDATE_VALUE',
-              payload: state.value - 1,
-            });
-            dispatch({ type: 'TOOGLE_EASE' });
-            clearTimeout(timer);
-          }, 3000);
-        }}
-        data-change={state.isEase}
-        className='p-3 bg-background  border outline-none  cursor-pointer data-[change="true"]:border-cyan-300  data-[change="true"]:text-cyan-300 data-[change="true"]:transition-colors'
-      >
-        {state.easeOptions.map((ease) => (
-          <option key={ease} value={ease} selected={state.ease === ease}>
-            {ease}
-          </option>
-        ))}
-      </select>
+      <Select onValueChange={handleValueChange} value={state.ease}>
+        <SelectTrigger
+          data-ease={state.isEase}
+          className='w-[110px] data-[ease="true"]:text-cyan-300 data-[ease="true"]:border-cyan-300'
+        >
+          <SelectValue placeholder='Select' />
+        </SelectTrigger>
+        <SelectContent className='max-h-[100px] overflow-y-auto'>
+          {state.easeOptions.map((ease) => (
+            <SelectItem key={ease} value={ease}>
+              {ease}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 }
