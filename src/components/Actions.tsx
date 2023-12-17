@@ -63,7 +63,7 @@ export default function Actions({
         >
           <SelectValue placeholder='Select' />
         </SelectTrigger>
-        <SelectContent className='max-h-[110px] overflow-y-auto'>
+        <SelectContent>
           {state.easeOptions.map((ease) => (
             <SelectItem key={ease} value={ease}>
               {ease}
