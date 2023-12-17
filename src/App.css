@@ -197,7 +197,6 @@ body::before {
   pointer-events: none;
 }
 
-
 [type='range'] {
   accent-color: var(--line);
 }

@@ -13,6 +13,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+    "@radix-ui/react-select": "^2.0.0",
+>>>>>>> 9dec1e4 (first commit)
+>>>>>>> a5b7d51 (first commit)
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "lucide-react": "^0.294.0",
